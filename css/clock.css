@@ -1,0 +1,52 @@
+#main_nav {
+    overflow: hidden;
+    margin: 0 auto;
+    text-align: center;
+
+}
+
+#main_nav ul {
+    margin: 0;
+}
+
+#main_nav li {
+    display: inline-block;
+    font-family: Varela Round;
+    color: black;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    -webkit-font-smoothing: subpixel-antialiased;
+    border-bottom: 1px solid black;
+}
+
+
+ul, li {
+    padding: 5px;
+}
+ul {
+    margin: 0;
+    padding: 0;
+    width: auto;
+
+}
+
+li a {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #555;
+    color: white;
+}
+
+#txt {
+    font-family: monospace;
+    padding: 2em;
+    font-size: 100px;
+    text-align: center;
+}
+
