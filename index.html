@@ -8,7 +8,7 @@
 
 </style>
 </head>
-<body id="imgeditor">
+<body onload="startTime(); setInterval('startTime()', 1 )">
 <div id="main_nav" class="theme">
     <ul>
         <li>
@@ -25,6 +25,9 @@
         </li>
         <li>
             <a href="clock.html">Clock</a>
+        </li>
+        <li>
+            <a href="madlibs.html">Mad Libs</a>
         </li>
         <li>
             <a href="https://github.com/nicoestebanez/nicoestebanez.github.io">My Github</a>
@@ -76,6 +79,7 @@
         <input class="slider" id="sepia" name="sepia" type="range" min="0" max="100" value="0">
     </p>
     <input type="reset" form="imageEditor" id="reset" value="Reset">
+
 </form>
 
 
