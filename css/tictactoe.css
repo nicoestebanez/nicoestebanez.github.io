@@ -1,7 +1,3 @@
-@font-face {
-    font-family: Varela Round;
-    src: url(VarelaRound-Regular.ttf) format("opentype");
-}
 *, *:after, *:before {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -105,7 +101,7 @@ button:hover span::before, button:hover span::after{
 
 #main_nav li {
     display: inline-block;
-    font-family: Varela Round;
+    font-family: monospace;
     color: black;
     font-size: 10px;
     text-transform: uppercase;
@@ -132,9 +128,18 @@ li a {
     text-decoration: none;
 }
 
-/* Change the link color on hover */
 li a:hover {
     background-color: #555;
     color: white;
+}
+.blinking{
+    animation:blinkingText 0.5s 5;
+}
+@keyframes blinkingText{
+    0%{     color: white;    }
+    25%{    color: black; }
+    50%{    color: white; }
+    75%{    color: black;;  }
+    100%{   color: white;    }
 }
 

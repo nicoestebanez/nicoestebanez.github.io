@@ -1,8 +1,4 @@
 
-@font-face {
-    font-family: Varela Round;
-    src: url(VarelaRound-Regular.ttf) format("opentype");
-}
 
 @keyframes end {
     from{
@@ -149,7 +145,7 @@ input{
 
 #main_nav li {
     display: inline-block;
-    font-family: Varela Round;
+    font-family: monospace;
     color: black;
     font-size: 10px;
     text-transform: uppercase;
