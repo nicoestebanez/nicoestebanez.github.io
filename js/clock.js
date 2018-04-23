@@ -15,7 +15,7 @@ function startTime() {
     s = checkTime(s);
     ms = checkTime(ms);
     document.getElementById('txt').innerHTML =
-        h + ":" + m + ":" + s;
+        h + ":" + m + ":" + s + " " + timeOfDay;
     document.getElementById('pam').innerHTML =
         timeOfDay;
     document.getElementById('date').innerHTML =

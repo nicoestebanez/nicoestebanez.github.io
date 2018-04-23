@@ -50,15 +50,10 @@ li a:hover {
     text-align: center;
     position: relative;
 }
-#pam {
-    font-family: monospace;
-    font-size: 50px;
-    position: absolute;
 
-}
 #date {
     font-family: monospace;
     font-size: 18px;
-    position: absolute;
 }
+
 

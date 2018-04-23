@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Quiz</title>
+    <link rel="stylesheet" type="text/css" href="css/quiz.css">
+
+</head>
+<body>
+<div id="main_nav" class="theme">
+    <ul>
+        <li>
+            <a href="index.html">Image Editor</a>
+        </li>
+        <li>
+            <a href="tictactoe.html">Tic-Tac-Toe</a>
+        </li>
+        <li>
+            <a href="wordguesser.html">Word Guesser</a>
+        </li>
+        <li>
+            <a href="estudiodavi.html">Estudio Davi</a>
+        </li>
+        <li>
+            <a href="clock.html">Clock</a>
+        </li>
+        <li>
+            <a href="madlibs.html">Mad Libs</a>
+        </li>
+        <li>
+            <a href="quiz.html">Quiz!</a>
+        </li>
+        <li>
+            <a href="https://github.com/nicoestebanez/nicoestebanez.github.io">My Github</a>
+        </li>
+    </ul>
+</div>
+<h3>Exciting Quiz Time!</h3>
+<div id="re" class="child"></div>
+<div id="quiz" class="parent">
+    <form id="quiz-form">
+
+        <fieldset>
+            <legend>What language is this programmed in?</legend>
+            <label><input name="question1" value="javascript" type="radio">JavaScript</label><br>
+            <label><input name="question1" value="python" type="radio">Python</label><br>
+            <label><input name="question1" value="java" type="radio">Java</label><br>
+        </fieldset>
+        <fieldset>
+            <legend>What computer language was invented first?</legend>
+            <label><input name="question2" value="javascript" type="radio">JavaScript</label><br>
+            <label><input name="question2" value="python" type="radio">Python</label><br>
+            <label><input name="question2" value="java" type="radio">Java</label><br>
+        </fieldset>
+        <fieldset>
+            <legend>A loop that never ends is referred to as a(n)_________.</legend>
+            <label><input name="question3" value="while" type="radio">While loop</label><br>
+            <label><input name="question3" value="infinite" type="radio">Infinite loop</label><br>
+            <label><input name="question3" value="for" type="radio">) for loop</label><br>
+        </fieldset>
+        <fieldset>
+            <legend>What is HTML mainly used for?</legend>
+            <label><input name="question4" value="website" type="radio">Constructing Websites</label><br>
+            <label><input name="question4" value="car" type="radio">Building Cars</label><br>
+            <label><input name="question4" value="robot" type="radio">Programming Robots</label><br>
+        </fieldset>
+        <fieldset>
+            <legend>What does HTML stand for?</legend>
+            <label><input name="question5" value="hop" type="radio">Hopping Text Markup Language</label><br>
+            <label><input name="question5" value="makeup" type="radio">Hyper Text Makeup Language</label><br>
+            <label><input name="question5" value="html" type="radio">Hyper Text Markup Language</label><br>
+        </fieldset>
+        <fieldset>
+            <legend>What does CSS stand for?</legend>
+            <label><input name="question6" value="calc" type="radio">Calculated Style Sheet</label><br>
+            <label><input name="question6" value="css" type="radio">Cascading Style Sheet</label><br>
+            <label><input name="question6" value="htmle" type="radio">Hyper Cascading Markup Language</label><br>
+        </fieldset>
+
+        <button type="submit" class="btn-4" onclick="score()"><span>Check me!</span></button>
+    </form>
+</div>
+<div id="results" class="child"></div>
+
+<div class="child">
+    <h1 class="ml4">
+        <span id="a" class="letters letters-1"></span>
+        <span id="b" class="letters letters-2"></span>
+        <span id="c" class="letters letters-3"></span>
+    </h1>
+</div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+<script type="text/javascript" src="js/quiz.js"></script>
+</body>
+</html>
