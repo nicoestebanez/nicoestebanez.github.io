@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #map {
+                height: 600px;
+            width: 100%;
+        }
+        body{
+            text-align: center;
+            font-family: "Times New Roman";
+            font-size: 18px;
+
+        }
+        img{
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+<h3>My Favorite Places</h3>
+<div id="map"></div>
+
+    <script>
+        var b = '<img src = https://lh5.googleusercontent.com/p/AF1QipO2IPyuI9YyVUW-q5XIALMSJfr1_GDkHPpW_Ua7=w408-h408-k-no>';
+        var a = '<img src = https://lh5.googleusercontent.com/p/AF1QipMYFgosAH1_bAmkll3aTRWp9xlju2HAbZwR4F-e=w408-h306-k-no>';
+        var t = '<img src = https://lh5.googleusercontent.com/p/AF1QipOsy9eXH9fiJlVmcFAFGXgvyxsZZlgHbpui8m6s=w408-h204-k-no>';
+        var i = '<img src = https://lh5.googleusercontent.com/p/AF1QipMJ465aepuAQ_u3GdEoPV8Aa9f9e3ePzG6Mfej0=w408-h306-k-no>';
+        var p = '<img src = https://lh5.googleusercontent.com/p/AF1QipMSNQrM71sXhJcAeujGKGcrNyaSbMyAhhz9WJeb=w408-h229-k-no>';
+        function initMap() {
+            var mapDiv = document.getElementById('map');
+            var opts = {
+                zoom: 16,
+                center: {lat:37.8693926, lng: -122.2679861},
+                gestureHandling: 'greedy',
+                mapTypeId : 'satellite'
+            };
+            var map = new google.maps.Map(mapDiv, opts);
+
+            var marker1 = new google.maps.Marker({
+                position: {lat:37.866919, lng: -122.265747},
+                map: map,
+                icon: 'image/co.gif'
+
+            });
+            var marker2 = new google.maps.Marker({
+                position: {lat:37.870098, lng: -122.267885},
+                map: map,
+                icon: 'https://78.media.tumblr.com/tumblr_m415ebCDfk1r017k2.gif'
+            });
+            var marker3 = new google.maps.Marker({
+                position: {lat:37.8694289, lng: -122.2679172},
+                map: map,
+                icon: 'https://78.media.tumblr.com/2ad8e45ec5ffe1d5f07963fe669ec746/tumblr_inline_ndkywiazq51rujz3w.png'
+            });
+            var marker4 = new google.maps.Marker({
+                position: {lat:37.8709751, lng: -122.2676366},
+                map: map,
+                icon: 'https://78.media.tumblr.com/tumblr_m3w1evapXW1r017k2.gif'
+            });
+            var marker5 = new google.maps.Marker({
+                position: {lat:37.8680279, lng: -122.2684683},
+                map: map,
+                icon: 'image/noodle.gif'
+            });
+            var info1 = new google.maps.InfoWindow({
+                content: 'Pipeline Cafe' + '<br>'
+                + p
+        });
+            var info2 = new google.maps.InfoWindow({
+                content: 'Ike\'s Love and Sandwiches' + '<br>'
+                + i
+            });
+            var info3 = new google.maps.InfoWindow({
+                content: 'BurgerMeister' + '<br>'
+                + b
+            });
+            var info4 = new google.maps.InfoWindow({
+                content: 'Arinell Pizza' + '<br>'
+                + a
+            });
+            var info5 = new google.maps.InfoWindow({
+                content: 'Toss Noodle Bar' + '<br>'
+                + t
+            });
+            marker1.addListener('click', function() {
+                info1.open(map, marker1);
+            });
+            marker2.addListener('click', function() {
+                info2.open(map, marker2);
+            });
+            marker3.addListener('click', function() {
+                info3.open(map, marker3);
+            });
+            marker4.addListener('click', function() {
+                info4.open(map, marker4);
+            });
+            marker5.addListener('click', function() {
+                info5.open(map, marker5);
+            });
+        }
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBrSAqX0DuI-ZA3xrvnSZ_atK5GvXFelQQ&callback=initMap">
+    </script>
+</body>
+</html>
