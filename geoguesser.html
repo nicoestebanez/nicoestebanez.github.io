@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>GeoGuesser</title>
+    <style>
+        body{
+            text-align: center;
+            background-color: lightgray;
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #street-view {
+            height: 400px;
+        }
+        #main_nav {
+            overflow: hidden;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        #main_nav ul {
+            margin: 0;
+        }
+
+        #main_nav li {
+            display: inline-block;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            -webkit-font-smoothing: subpixel-antialiased;
+        }
+
+
+        ul {
+            margin: 0;
+            padding: 0;
+            width: auto;
+
+        }
+
+        .reset{
+            font-family: "Times New Roman";
+            font-size: 12px;
+            color: white;
+            background-color: deepskyblue;
+            border-radius: 10px;
+            height: 50px;
+            width: 200px;
+            border:3px solid deepskyblue;
+            user-select: none;
+            outline: none;
+            position: relative;
+        }
+
+        .reset:hover{
+            background-color: white;
+            color: deepskyblue;
+            outline: none;
+        }
+
+    </style>
+</head>
+<body>
+
+<h2>Where is this place??</h2>
+<div id="results">Score: 0</div>
+<div id="main_nav">
+    <ul>
+        <li>
+            <div id="street-view" style="width:500px; height: 300px"></div>
+
+        </li>
+        <li>
+            <div id="map" style="width:500px; height: 300px;"></div>
+        </li>
+    </ul>
+</div>
+<button id="nextbutton" class="reset">I'm ready to guess the next place!</button>
+
+<script>
+
+    var place;
+    var placeNum = 0;
+    var userMarker;
+    var secretDiv = document.getElementById("street-view");
+    var turn = 5;
+    var score = 0;
+    var totald = 0;
+
+    function onMapsAPILoad() {
+        var center = {lat: 0, lng: 0};
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 1,
+            center: center
+        });
+
+
+        map.addListener('click', function(e) {
+            // Create or reposition marker
+            if (!userMarker) {
+                userMarker = new google.maps.Marker({
+                    position: e.latLng,
+                    map: map
+                });
+            } else {
+                userMarker.setMap(map);
+                userMarker.setPosition(e.latLng);
+            }
+            totald = totald + distanceAway
+            var distanceAway = getDistance(e.latLng.toJSON(), place);
+            if (distanceAway < 50){
+                score = score + 5000
+            }
+            else if (distanceAway > 50 && distanceAway < 100){
+                score = score + 4000
+            }
+            else if (distanceAway > 100 && distanceAway < 500){
+                score = score + 3000
+            }
+            else if (distanceAway > 500 && distanceAway < 1000){
+                score = score + 2000
+            }
+            else if (distanceAway > 1000 && distanceAway < 2000){
+                score = score + 1000
+            }
+            else if (distanceAway > 2000){
+                score = score + 0
+            }
+            var resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = "Score: " + score;
+            console.log(score)
+            console.log(distanceAway)
+        });
+
+        var nextButton = document.getElementById("nextbutton");
+        nextButton.addEventListener("click", function() {
+            displayLoading();
+            placeNum++;
+            displayNextPlace();
+            turn = turn - 1;
+            console.log(turn)
+        });
+        displayLoading();
+        displayNextPlace();
+    };
+
+    function displayLoading() {
+        var img = document.createElement("img");
+        img.src = "https://loading.io/spinners/azure/index.azure-round-loader.gif";
+        secretDiv.innerHTML = "";
+        secretDiv.appendChild(img);
+    }
+
+    function displayNextPlace() {
+
+        if (turn === 0) {
+            totald = totald/5
+            alert("You got a score of: " + score + "! Refresh the page to p")
+        }
+        var randomLat = (Math.random() * 100) - 50;
+        var randomLng = (Math.random() * 360) - 180;
+        place = {lat: randomLat, lng: randomLng};
+        var service = new google.maps.StreetViewService();
+        var panoOptions = {
+            preference: 'nearest',
+            location: place,
+            radius: 1000
+        };
+
+        var map = document.getElementById("map")
+        var flightPlanCoordinates = [
+            {lat: randomLat, lng: randomLng},
+            {lat: place.lat, lng: place.lng}
+
+        ];
+        var flightPath = new google.maps.Polyline({
+            path: flightPlanCoordinates,
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+        });
+
+        flightPath.setMap(map);
+        service.getPanorama(panoOptions, function(data, status) {
+            if (status !== "OK") {
+                displayNextPlace();
+                return;
+            }
+
+            place = data.location.latLng.toJSON();
+            var img = document.createElement("img"); // <img>
+            var panorama = new google.maps.StreetViewPanorama(
+                document.getElementById('street-view'), {
+                    position: {lat: place.lat, lng: place.lng},
+                    pov: {heading: 165, pitch: 0},
+                    motionTracking: false,
+                    disableDefaultUI: true
+                });
+            img.alt = "mystery photo";
+            var secretDiv = document.getElementById("secret");
+            secretDiv.innerHTML = "";
+            secretDiv.appendChild(img);
+        });
+
+
+    };
+
+    // Distance calculation functions, very useful!
+    var rad = function(x) {
+        return x * Math.PI / 180;
+    };
+
+    var getDistance = function(p1, p2) {
+        var R = 6378137; // Earth’s mean radius in meter
+        var dLat = rad(p2.lat - p1.lat);
+        var dLong = rad(p2.lng - p1.lng);
+        var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(rad(p1.lat)) * Math.cos(rad(p2.lat)) *
+            Math.sin(dLong / 2) * Math.sin(dLong / 2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var d = R * c;
+        d = d/1000
+        return d;
+
+    };
+
+
+
+
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuJk0ZN3yMa6mM8lOX9-Qhn-x1QEfa6tY&callback=onMapsAPILoad">
+</script>
+</body>
+</html>
