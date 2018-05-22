@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Breakout 2D</title>
+</head>
+<style>
+    * { padding: 0; margin: 0;}
+    canvas {
+        background: #eee;
+        display: block;
+        margin: 0 auto;
+        position: inherit;
+        z-index: -1;
+    }
+    #end{
+        float: inherit;
+        z-index: 1;
+        position: relative;
+        text-align: center;
+        font-family: monospace;
+        font-size: 30px;
+        margin-bottom: 50px;
+    }
+
+h1 {
+    text-align: center;
+    margin-bottom: 200px;
+}
+
+    #reset{
+        height: 10em;
+        font-family: "Times New Roman";
+        font-size: 20px;
+        color: white;
+        background-color: #000;
+        border-radius: 10px;
+        height: 50px;
+        width: 200px;
+        border:3px solid #000;
+        user-select: none;
+        outline: none;
+    }
+
+    #reset:hover{
+        background-color: white;
+        color: #000;
+        outline: none;
+    }
+    .parent{
+        top: 3em;
+        margin: 0 auto;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .child{
+        position: absolute;
+        left: 5em;
+        right: 5em;
+        text-align: center;
+    }
+
+    h6 {
+        text-align: center;
+    }
+
+</style>
+<body>
+
+<canvas id = "myCanvas" width="750" height="500" class="child"></canvas>
+<div id="end" class="parent">
+    <span id="game"></span><br>
+    <br>
+    <button id="reset" type="reset" onclick="document.location.reload()">Restart</button>
+</div>
+
+<h1>Epilepsy Warning :)</h1>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<h6>I am not liable for any seizures or other injuries caused while using this program</h6>
+
+
+
+
+<script>
+    document.getElementById("end").style.opacity = "0";
+    var canvas=document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    var ballRadius=10;
+    var game = document.getElementById("game");
+    var x=canvas.width/2;
+    var y=canvas.height-30;
+    var dx=2;
+    var dy=-2;
+    var paddleHeight=10;
+    var paddleWidth=75;
+    var paddleX=(canvas.width-paddleWidth)/2;
+    var rightPressed= false;
+    var leftPressed=false;
+    var brickRowCount = 5;
+    var brickColumnCount = 8;
+    var brickWidth = 75;
+    var brickHeight = 20;
+    var brickPadding = 10;
+    var brickOffsetTop = 30;
+    var brickOffsetLeft = 30;
+    var score = 0;
+    var lives = 3;
+    document.addEventListener("keydown",keyDownHandler,false);
+    document.addEventListener("keyup",keyUpHandler,false);
+    document.addEventListener("mousemove",mouseMoveHandler,false);
+
+    function javascript_abort()
+    {
+        throw new Error('This is not an error. This is just to abort javascript');
+    }
+
+    function mouseMoveHandler(e) {
+        var relativeX = e.clientX - canvas.offsetLeft;
+        if(relativeX > 0 && relativeX < canvas.width) {
+            paddleX = relativeX - paddleWidth/2
+        }
+    }
+
+    var bricks = [];
+    for(c=0; c<brickColumnCount; c++) {
+        bricks[c] = [];
+        for(r=0; r<brickRowCount; r++) {
+            bricks[c][r] = { x: 0, y: 0, status: 1 };
+        }
+    }
+
+    function keyDownHandler(e){
+        if(e.keyCode==39){
+
+            rightPressed=true;
+
+        }
+        else if(e.keyCode==37){
+
+            leftPressed=true;
+
+        }
+
+    }
+
+    function keyUpHandler(e){
+
+        if(e.keyCode==39){
+
+            rightPressed=false;
+        }
+        else if(e.keyCode==37){
+
+            leftPressed=false;
+
+        }
+    }
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+    function drawBall(){
+        ctx.beginPath();
+        ctx.arc(x,y,ballRadius,0,2*Math.PI);
+        ctx.fillstyle="#000";
+        ctx.fillStroke="#000";
+        ctx.Stroke="10"
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    function drawPaddle(){
+        ctx.beginPath();
+        ctx.rect(paddleX,canvas.height-paddleHeight,paddleWidth,paddleHeight);
+        ctx.fillstyle="#000";
+        ctx.fill();
+        ctx.closePath();
+    }
+    function drawBricks() {
+        for(c=0; c<brickColumnCount; c++) {
+            for(r=0; r<brickRowCount; r++) {
+                if(bricks[c][r].status == 1) {
+                    function getRandomColor() {
+                        var letters = '0123456789ABCDEF';
+                        var color = '#';
+                        for (var i = 0; i < 6; i++) {
+                            color += letters[Math.floor(Math.random() * 16)];
+                        }
+                        return color;
+                    }
+                    var brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+                    var brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
+                    bricks[c][r].x = brickX;
+                    bricks[c][r].y = brickY;
+                    ctx.beginPath();
+                    ctx.rect(brickX, brickY, brickWidth, brickHeight);
+                    ctx.fillStyle = getRandomColor();
+                    ctx.fill();
+                    ctx.closePath();
+                }
+            }
+        }
+    }
+
+    function collisionDetection() {
+        for(c=0; c<brickColumnCount; c++) {
+            for(r=0; r<brickRowCount; r++) {
+                var b = bricks[c][r];
+                if(b.status == 1) {
+                    if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
+                        dy = -dy;
+                        b.status = 0;
+                        score ++;
+                        if(score == brickRowCount*brickColumnCount){
+                            //document.getElementById("end").style.opacity = "1";
+                            //game.innerHTML = "Congratulations, You WON!"
+                            //javascript_abort();
+                            brickRowCount = brickRowCount + 2;
+
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    function drawScore() {
+        ctx.font = "16px Arial";
+        ctx.fillStyle = getRandomColor();
+        ctx.fillText("Score: "+score, 8, 20);
+    }
+
+    function drawLives() {
+        ctx.font = "16px Arial";
+        ctx.fillstyle = getRandomColor();
+        ctx.fillText("Lives: "+lives, canvas.width-65,20);
+    }
+
+    function draw(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        drawBricks();
+        drawBall();
+        drawPaddle();
+        collisionDetection();
+        drawScore();
+        drawLives();
+        if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+            dx = -dx;
+        }
+        if(y + dy < ballRadius) {
+            dy = -dy;
+        }
+        else if(y + dy > canvas.height-ballRadius) {
+            if(x > paddleX && x < paddleX + paddleWidth) {
+                if(y= y-paddleHeight){
+                    dy = -dy  ;
+                }
+            }
+            else {
+                lives --
+                if (!lives) {
+                    document.getElementById("end").style.opacity = "1";
+                    game.innerHTML = "You Lost!"
+                    javascript_abort();
+                }
+                else {
+                    x = canvas.width/2;
+                    y = canvas.height-30;
+                    dx = 2;
+                    dy = -2;
+                    paddleX = (canvas.width-paddleWidth)/2;
+                }
+
+            }
+        }
+        if(rightPressed && paddleX<canvas.width-paddleWidth){
+
+            paddleX+=7;
+        }
+        else if(leftPressed && paddleX>0 ){
+            paddleX-=7;
+
+        }
+
+
+        x=x+dx;
+        y=y+dy;
+        requestAnimationFrame(draw);
+    }
+    draw();
+
+
+</script>
+</body>
+</html>
